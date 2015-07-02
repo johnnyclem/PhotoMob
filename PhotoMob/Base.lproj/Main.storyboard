@@ -44,6 +44,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="1YG-GO-m8x"/>
+                                </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jd7-pc-0Pl">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>

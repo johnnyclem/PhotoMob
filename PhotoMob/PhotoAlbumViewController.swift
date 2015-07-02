@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoAlbumViewController: UIViewController {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,21 @@ class PhotoAlbumViewController: UIViewController {
     
     @IBAction func takePicture(sender: UIBarButtonItem) {
         print("take picture")
+    }
+    
+    
+    //MARK: UICollectionViewDataSource
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        // construct header view here
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // return number of photos
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        // construct PhotoCell here
     }
 }
 
