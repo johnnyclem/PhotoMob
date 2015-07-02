@@ -10,10 +10,14 @@ import UIKit
 
 class PhotoViewController: UIViewController {
 
+    @IBOutlet weak var imageView: UIImageView!
+    var photo : UIImage?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // set the photo, if available, to the image view
+        imageView.image = photo
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +25,5 @@ class PhotoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -86,6 +86,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    //MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        // check segue identifier
+        if segue.identifier == "showPhotoView" {
+            // ensure the destination class is PhotoViewController
+            guard let destinationViewController = segue.destinationViewController as? PhotoViewController else { return }
+            // get the selected photo index
+            guard let selectedIndex = collectionView.indexPathsForSelectedItems()?.first else { return }
+            // get the selected photo
+            let selectedPhoto = photos[selectedIndex.row]
+            // pass the selected photo to the photo view controller
+            destinationViewController.photo = selectedPhoto
+        }
+    }
     
     //MARK: UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
