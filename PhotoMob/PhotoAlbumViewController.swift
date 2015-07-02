@@ -46,6 +46,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             users.append(thisUser)
             // reload the collectionView
             collectionView.reloadData()
+            // update the header label
+            self.title = "Local Mob - \(users.count) Users"
+            // animate backdrop
+            UIView.animateWithDuration(0.4, animations: {
+                self.collectionView.backgroundColor = UIColor.lightGrayColor()
+            })
         } else {
             // stop network discovery
             self.stopNearbyNetworking()
@@ -57,6 +63,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             users.append(thisUser)
             // reload the collectionView
             collectionView.reloadData()
+            // update the header label
+            self.title = "Local Mob - Disconnected"
+            // animate backdrop
+            UIView.animateWithDuration(0.4, animations: {
+                self.collectionView.backgroundColor = UIColor.blackColor()
+            })
         }
         
     }
@@ -80,13 +92,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         // request a reusable header from the collectionView
         let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "PhotosHeader", forIndexPath: indexPath) as! PhotosHeaderView
-        
-        // update the header label
-        if users.count > 1 {
-            header.titleLabel.text = "Local Mob - \(users.count) Users"
-        } else {
-            header.titleLabel.text = "Local Mob - Disconnected"
-        }
         
         // return the configured header
         return header
