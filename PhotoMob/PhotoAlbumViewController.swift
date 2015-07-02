@@ -34,15 +34,27 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     @IBAction func joinLocalMob(sender: UIBarButtonItem) {
         
         if sender.title == "Join Mob" {
+            // startup network discovery
             self.startNearbyNetworking()
+            // update the button title
             sender.title = "Leave Mob"
-            print("joined local mob")
+            // init the users array
+            users = [User]()
+            // add "this user" to the list of users
             users.append(thisUser)
+            // reload the collectionView
+            collectionView.reloadData()
         } else {
+            // stop network discovery
             self.stopNearbyNetworking()
+            // update the button title
             sender.title = "Join Mob"
-            print("left local mob")
-            
+            // re-initialize the users array
+            users = [User]()
+            // add "this user" back to the list of users
+            users.append(thisUser)
+            // reload the collectionView
+            collectionView.reloadData()
         }
         
     }
