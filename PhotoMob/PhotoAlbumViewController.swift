@@ -19,6 +19,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     var photos = [UIImage]()
     var users = [User]()
     let thisUser = User()
+    var imagePicker = UIImagePickerController()
     
     // View Lifecycle
     override func viewDidLoad() {
@@ -62,9 +63,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     
     @IBAction func takePicture(sender: UIBarButtonItem) {
-        print("take picture")
-        
-        
+
+        // configure the imagePicker source type
+        imagePicker.sourceType = .PhotoLibrary
+        // set this class as the delegate
+        imagePicker.delegate = self
+        // present the picker
+        self.presentViewController(imagePicker, animated: true) {
+            print("presented image picker")
+        }
     }
     
     
@@ -108,7 +115,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // add the new image to the Photos array
         photos.append(image)
         // reload the collection view
-        collectionView.reloadData()
+        self.collectionView.reloadData()
+        // dismiss the image picker
+        picker.dismissViewControllerAnimated(true) {
+            print("picked photo: \(image)")
+        }
     }
     
     
