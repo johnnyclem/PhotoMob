@@ -7,19 +7,17 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
-class User {
-    
-}
-
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
     var photos = [UIImage]()
-    var users = [User]()
-    let thisUser = User()
+    var users = [MCPeerID]()
     var imagePicker = UIImagePickerController()
+    var multiPeerController = MultiPeerController()
+    var session : MCSession?
     
     // View Lifecycle
     override func viewDidLoad() {
@@ -37,13 +35,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         if sender.title == "Join Mob" {
             // startup network discovery
-            self.startNearbyNetworking()
+            multiPeerController.startNearbyNetworkingWithDelegate(self, browserDelegate: self)
             // update the button title
             sender.title = "Leave Mob"
             // init the users array
-            users = [User]()
+            users = [MCPeerID]()
             // add "this user" to the list of users
-            users.append(thisUser)
+            users.append(self.multiPeerController.localPeerID)
             // reload the collectionView
             collectionView.reloadData()
             // update the header label
@@ -54,13 +52,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             })
         } else {
             // stop network discovery
-            self.stopNearbyNetworking()
+            multiPeerController.stopNearbyNetworking()
             // update the button title
             sender.title = "Join Mob"
             // re-initialize the users array
-            users = [User]()
+            users = [MCPeerID]()
             // add "this user" back to the list of users
-            users.append(thisUser)
+            users.append(self.multiPeerController.localPeerID)
             // reload the collectionView
             collectionView.reloadData()
             // update the header label
@@ -139,18 +137,81 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // dismiss the image picker
         picker.dismissViewControllerAnimated(true) {
             print("picked photo: \(image)")
+            self.sendImageToPeers(image)
         }
     }
     
-    
-    //MARK: Nearby Networking
-    func startNearbyNetworking() {
-        
+    func sendImageToPeers(image: UIImage) {
+        // compress the image to JPEG as raw binary data
+        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
+        do {
+            // try to send the data over the wire
+            try self.session?.sendData(imageData, toPeers: self.users, withMode: MCSessionSendDataMode.Reliable)
+        } catch {
+            print(error)
+        }
     }
     
-    func stopNearbyNetworking() {
+    //MARK: MCNearbyServiceAdvertiserDelegate
+    func advertiser(advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: NSData?, invitationHandler: (Bool, MCSession) -> Void) {
         
+        // create a session using our local peer ID
+        if session == nil {
+            session = MCSession(peer: multiPeerController.localPeerID)
+            // become the delegate of the session
+            session!.delegate = self
+        }
+        // call the invitation handler to accept the request
+        invitationHandler(true, session!)
+    }
+    
+    func advertiser(advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: NSError) {
+        print("failed to start advertising: \(error)")
     }
 
+    //MARK: MCSessionDelegate
+    
+    
+    func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
+        guard let image = UIImage(data: data) else { return }
+        photos.append(image)
+        collectionView.reloadData()
+    }
+    
+    func session(session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, atURL localURL: NSURL, withError error: NSError) {
+        
+    }
+    
+    func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        
+    }
+    
+    func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
+        
+    }
+    
+    func session(session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, withProgress progress: NSProgress) {
+        
+    }
+    
+    func browser(browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        print("found peer: \(peerID)")
+        users.append(peerID)
+        
+        if session == nil {
+            session = MCSession(peer: multiPeerController.localPeerID)
+            session?.delegate = self
+        }
+        
+        browser.invitePeer(peerID, toSession: session!, withContext: nil, timeout: 10)
+    }
+    
+    func browser(browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        print("lost peer: \(peerID)")
+    }
+    
+    func browser(browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: NSError) {
+        
+    }
 }
 

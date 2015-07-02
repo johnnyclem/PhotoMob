@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "C13F1CB6C0B0ED97D97D05325A50824860184FA2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C13F1CB6C0B0ED97D97D05325A50824860184FA2" : 0,
+    "B3257540F91E4D318FBC64E5587A013FE7A29F75" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "06EFEE60-3F77-42DD-8010-3BF7842B8E7D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C13F1CB6C0B0ED97D97D05325A50824860184FA2" : "PhotoMob\/",
+    "B3257540F91E4D318FBC64E5587A013FE7A29F75" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PhotoMob",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PhotoMob.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:johnnyclem\/ga-swift-bootcamp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B3257540F91E4D318FBC64E5587A013FE7A29F75"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:johnnyclem\/PhotoMob.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C13F1CB6C0B0ED97D97D05325A50824860184FA2"
+    }
+  ]
+}

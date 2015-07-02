@@ -15,6 +15,7 @@
 		EF1977281B4575B70032A11D /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */; };
 		EF19772A1B4576930032A11D /* PhotosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1977291B4576930032A11D /* PhotosHeaderView.swift */; };
 		EF19772C1B457D3A0032A11D /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF19772B1B457D3A0032A11D /* PhotoViewController.swift */; };
+		EFBA6E061B45933200CECA78 /* MultiPeerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA6E051B45933200CECA78 /* MultiPeerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		EF1977291B4576930032A11D /* PhotosHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHeaderView.swift; sourceTree = "<group>"; };
 		EF19772B1B457D3A0032A11D /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		EFBA6E051B45933200CECA78 /* MultiPeerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPeerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				EF19772B1B457D3A0032A11D /* PhotoViewController.swift */,
 				EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */,
 				EF1977291B4576930032A11D /* PhotosHeaderView.swift */,
+				EFBA6E051B45933200CECA78 /* MultiPeerController.swift */,
 				EF1977171B4572240032A11D /* Main.storyboard */,
 				EF19771A1B4572240032A11D /* Assets.xcassets */,
 				EF19771C1B4572240032A11D /* LaunchScreen.storyboard */,
@@ -148,6 +151,7 @@
 				EF19772A1B4576930032A11D /* PhotosHeaderView.swift in Sources */,
 				EF1977281B4575B70032A11D /* PhotoCollectionViewCell.swift in Sources */,
 				EF19772C1B457D3A0032A11D /* PhotoViewController.swift in Sources */,
+				EFBA6E061B45933200CECA78 /* MultiPeerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +301,7 @@
 				EF1977241B4572240032A11D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
