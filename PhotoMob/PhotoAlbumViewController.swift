@@ -10,6 +10,8 @@ import UIKit
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
 
+    var photos = [UIImage]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -39,6 +41,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // return number of photos
+        return photos.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
