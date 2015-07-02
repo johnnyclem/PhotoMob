@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PhotoAlbumViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,5 +21,13 @@ class ViewController: UIViewController {
     }
 
 
+    @IBAction func joinLocalMob(sender: UIBarButtonItem) {
+        print("join local mob")
+    }
+    
+    
+    @IBAction func takePicture(sender: UIBarButtonItem) {
+        print("take picture")
+    }
 }
 
