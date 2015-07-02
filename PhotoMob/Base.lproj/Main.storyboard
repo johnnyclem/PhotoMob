@@ -64,7 +64,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="600" id="hfT-80-Q9P"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>

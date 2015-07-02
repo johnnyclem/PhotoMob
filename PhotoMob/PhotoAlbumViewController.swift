@@ -12,7 +12,7 @@ class User {
     
 }
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -20,6 +20,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     var users = [User]()
     let thisUser = User()
     
+    // View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,7 +31,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
         // Dispose of any resources that can be recreated.
     }
 
-
+    // UI Actions
     @IBAction func joinLocalMob(sender: UIBarButtonItem) {
         
         if sender.title == "Join Mob" {
@@ -68,14 +69,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     
     
     //MARK: UICollectionViewDataSource
-    
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         // request a reusable header from the collectionView
         let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "PhotosHeader", forIndexPath: indexPath) as! PhotosHeaderView
         
         // update the header label
-        header.titleLabel.text = "Local Mob - \(users.count) Users"
+        if users.count > 1 {
+            header.titleLabel.text = "Local Mob - \(users.count) Users"
+        } else {
+            header.titleLabel.text = "Local Mob - Disconnected"
+        }
         
         // return the configured header
         return header
@@ -99,8 +103,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     }
     
     
-    //MARK: Nearby Networking
+    //MARK: UIImagePickerControllerDelegate
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        // add the new image to the Photos array
+        photos.append(image)
+        // reload the collection view
+        collectionView.reloadData()
+    }
     
+    
+    //MARK: Nearby Networking
     func startNearbyNetworking() {
         
     }
