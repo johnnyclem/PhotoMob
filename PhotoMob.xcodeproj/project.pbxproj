@@ -12,6 +12,8 @@
 		EF1977191B4572240032A11D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF1977171B4572240032A11D /* Main.storyboard */; };
 		EF19771B1B4572240032A11D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF19771A1B4572240032A11D /* Assets.xcassets */; };
 		EF19771E1B4572240032A11D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF19771C1B4572240032A11D /* LaunchScreen.storyboard */; };
+		EF1977281B4575B70032A11D /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */; };
+		EF19772A1B4576930032A11D /* PhotosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1977291B4576930032A11D /* PhotosHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		EF19771A1B4572240032A11D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF19771D1B4572240032A11D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF19771F1B4572240032A11D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF1977291B4576930032A11D /* PhotosHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				EF1977131B4572240032A11D /* AppDelegate.swift */,
 				EF1977151B4572240032A11D /* PhotoAlbumViewController.swift */,
+				EF1977271B4575B70032A11D /* PhotoCollectionViewCell.swift */,
+				EF1977291B4576930032A11D /* PhotosHeaderView.swift */,
 				EF1977171B4572240032A11D /* Main.storyboard */,
 				EF19771A1B4572240032A11D /* Assets.xcassets */,
 				EF19771C1B4572240032A11D /* LaunchScreen.storyboard */,
@@ -136,6 +142,8 @@
 			files = (
 				EF1977161B4572240032A11D /* PhotoAlbumViewController.swift in Sources */,
 				EF1977141B4572240032A11D /* AppDelegate.swift in Sources */,
+				EF19772A1B4576930032A11D /* PhotosHeaderView.swift in Sources */,
+				EF1977281B4575B70032A11D /* PhotoCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,22 +27,59 @@
                                     <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="3ec-hd-6CL">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="3ec-hd-6CL" customClass="PhotoCollectionViewCell" customModule="PhotoMob" customModuleProvider="target">
                                         <rect key="frame" x="10" y="60" width="120" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yed-1n-lsL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
+                                        <constraints>
+                                            <constraint firstItem="Yed-1n-lsL" firstAttribute="leading" secondItem="3ec-hd-6CL" secondAttribute="leading" id="BPg-qo-8at"/>
+                                            <constraint firstItem="Yed-1n-lsL" firstAttribute="top" secondItem="3ec-hd-6CL" secondAttribute="top" id="PRi-3Q-QbY"/>
+                                            <constraint firstAttribute="trailing" secondItem="Yed-1n-lsL" secondAttribute="trailing" id="VAG-mY-zhn"/>
+                                            <constraint firstAttribute="bottom" secondItem="Yed-1n-lsL" secondAttribute="bottom" id="igp-06-lgH"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="Yed-1n-lsL" id="6sv-az-hft"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2DM-a0-pnJ">
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotosHeader" id="2DM-a0-pnJ" customClass="PhotosHeaderView" customModule="PhotoMob" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Local Mob - 0 Users" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG2-ad-3Xb">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="600" id="hfT-80-Q9P"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <animations/>
+                                    <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                    <constraints>
+                                        <constraint firstItem="MG2-ad-3Xb" firstAttribute="leading" secondItem="2DM-a0-pnJ" secondAttribute="leading" id="Jc0-co-MmH"/>
+                                        <constraint firstAttribute="bottom" secondItem="MG2-ad-3Xb" secondAttribute="bottom" id="T7N-Ad-CMI"/>
+                                        <constraint firstItem="MG2-ad-3Xb" firstAttribute="top" secondItem="2DM-a0-pnJ" secondAttribute="top" id="TmR-IH-ZSp"/>
+                                        <constraint firstAttribute="trailing" secondItem="MG2-ad-3Xb" secondAttribute="trailing" id="gdJ-iB-paY"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="titleLabel" destination="MG2-ad-3Xb" id="fqS-jj-bR1"/>
+                                    </connections>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="1YG-GO-m8x"/>
@@ -82,6 +119,9 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SnS-Wf-P7A" secondAttribute="bottom" id="qvm-dg-13m"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="SnS-Wf-P7A" id="a8t-tK-leJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
