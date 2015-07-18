@@ -7,17 +7,15 @@
 //
 
 import UIKit
-import MultipeerConnectivity
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PLPartyTimeDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
     var photos = [UIImage]()
-    var users = [MCPeerID]()
     var imagePicker = UIImagePickerController()
-    var multiPeerController = MultiPeerController()
-    var session : MCSession?
+    
+    var peers = [MCPeerID]()
     
     // View Lifecycle
     override func viewDidLoad() {
@@ -30,35 +28,30 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
 
+    var partyTime = PLPartyTime(serviceType: "com-ga-photoMob")
+    
     // UI Actions
     @IBAction func joinLocalMob(sender: UIBarButtonItem) {
         
         if sender.title == "Join Mob" {
-            // startup network discovery
-            multiPeerController.startNearbyNetworkingWithDelegate(self, browserDelegate: self)
+            // start advertising
+            partyTime.delegate = self
+            partyTime.joinParty()
             // update the button title
             sender.title = "Leave Mob"
-            // init the users array
-            users = [MCPeerID]()
-            // add "this user" to the list of users
-            users.append(self.multiPeerController.localPeerID)
             // reload the collectionView
             collectionView.reloadData()
             // update the header label
-            self.title = "Local Mob - \(users.count) Users"
+            self.title = "Local Mob - \(peers.count + 1) Users"
             // animate backdrop
             UIView.animateWithDuration(0.4, animations: {
                 self.collectionView.backgroundColor = UIColor.lightGrayColor()
             })
         } else {
-            // stop network discovery
-            multiPeerController.stopNearbyNetworking()
+            // stop advertising
+            partyTime.leaveParty()
             // update the button title
             sender.title = "Join Mob"
-            // re-initialize the users array
-            users = [MCPeerID]()
-            // add "this user" back to the list of users
-            users.append(self.multiPeerController.localPeerID)
             // reload the collectionView
             collectionView.reloadData()
             // update the header label
@@ -75,7 +68,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func takePicture(sender: UIBarButtonItem) {
 
         // configure the imagePicker source type
-        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+        // turn on photo editing
+        imagePicker.allowsEditing = true
         // set this class as the delegate
         imagePicker.delegate = self
         // present the picker
@@ -97,6 +92,31 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             let selectedPhoto = photos[selectedIndex.row]
             // pass the selected photo to the photo view controller
             destinationViewController.photo = selectedPhoto
+        }
+    }
+    
+    //MARK: PLPartyTimeDelegate
+    func partyTime(partyTime: PLPartyTime!, failedToJoinParty error: NSError!) {
+        print("couldn't join party")
+    }
+    
+    func partyTime(partyTime: PLPartyTime!, peer: MCPeerID!, changedState state: MCSessionState, currentPeers: [AnyObject]!) {
+        guard let peerList: [MCPeerID] = currentPeers as? [MCPeerID] else { return }
+        self.peers = peerList
+        // update the header label on the main thread
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.title = "Local Mob - \(self.peers.count + 1) Users"
+        }
+    }
+    
+    func partyTime(partyTime: PLPartyTime!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
+        // unwrap the raw image date into a UIImage structure
+        guard let image = UIImage(data: data) else { return }
+        // add the image to photos
+        self.photos.append(image)
+        // update the collectionView on the main thread
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.collectionView.reloadData()
         }
     }
     
@@ -137,81 +157,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // dismiss the image picker
         picker.dismissViewControllerAnimated(true) {
             print("picked photo: \(image)")
-            self.sendImageToPeers(image)
+            // send the image to connected peers
+            do {
+                let imageData = UIImageJPEGRepresentation(image, 0.5)
+                try self.partyTime.sendData(imageData, toPeers: self.peers, withMode: MCSessionSendDataMode.Reliable)
+            } catch {
+                print(error)
+            }
         }
-    }
-    
-    func sendImageToPeers(image: UIImage) {
-        // compress the image to JPEG as raw binary data
-        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
-        do {
-            // try to send the data over the wire
-            try self.session?.sendData(imageData, toPeers: self.users, withMode: MCSessionSendDataMode.Reliable)
-        } catch {
-            print(error)
-        }
-    }
-    
-    //MARK: MCNearbyServiceAdvertiserDelegate
-    func advertiser(advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: NSData?, invitationHandler: (Bool, MCSession) -> Void) {
-        
-        // create a session using our local peer ID
-        if session == nil {
-            session = MCSession(peer: multiPeerController.localPeerID)
-            // become the delegate of the session
-            session!.delegate = self
-        }
-        // call the invitation handler to accept the request
-        invitationHandler(true, session!)
-    }
-    
-    func advertiser(advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: NSError) {
-        print("failed to start advertising: \(error)")
-    }
-
-    //MARK: MCSessionDelegate
-    
-    
-    func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
-        guard let image = UIImage(data: data) else { return }
-        photos.append(image)
-        collectionView.reloadData()
-    }
-    
-    func session(session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, atURL localURL: NSURL, withError error: NSError) {
-        
-    }
-    
-    func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        
-    }
-    
-    func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
-        
-    }
-    
-    func session(session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, withProgress progress: NSProgress) {
-        
-    }
-    
-    func browser(browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        print("found peer: \(peerID)")
-        users.append(peerID)
-        
-        if session == nil {
-            session = MCSession(peer: multiPeerController.localPeerID)
-            session?.delegate = self
-        }
-        
-        browser.invitePeer(peerID, toSession: session!, withContext: nil, timeout: 10)
-    }
-    
-    func browser(browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        print("lost peer: \(peerID)")
-    }
-    
-    func browser(browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: NSError) {
-        
     }
 }
 
